@@ -1,4 +1,12 @@
-import { CheckCircleIcon, ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
+import {
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+  XCircleIcon,
+  FolderIcon,
+  CodeBracketIcon,
+  ArrowRightEndOnRectangleIcon,
+  ArrowLeftStartOnRectangleIcon,
+} from "@heroicons/react/24/outline";
 
 export default function Home() {
   return (
@@ -17,32 +25,59 @@ export default function Home() {
         </thead>
         <tbody>
           <tr>
-            <th scope="row">Meeting Transcriptions</th>
-            <td><CheckCircleIcon className="size-5 inline align-text-top mr-2 text-green-600" />Healthy</td>
+            <th scope="row">
+              <ArrowRightEndOnRectangleIcon className="size-5 inline align-text-top mr-2" />
+              Meeting Transcriptions
+            </th>
+            <td>
+              <CheckCircleIcon className="size-5 inline align-text-top mr-2 text-green-600" />
+              Healthy
+            </td>
             <td></td>
           </tr>
           <tr>
-            <th scope="row">Task Management</th>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row" className="pl-4">Capture Notes</th>
-            <td><ExclamationCircleIcon className="size-5 inline align-text-top mr-2 text-amber-600" />Unknown</td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row" className="pl-4">Task Enrichment</th>
-            <td><XCircleIcon className="size-5 inline align-text-top mr-2 text-red-600" />Unhealthy</td>
-            <td></td>
-          </tr>
-          <tr>
-            <th scope="row" className="pl-4">Utilities</th>
+            <th scope="row">
+              <FolderIcon className="size-5 inline align-text-top mr-2" />
+              Task Management
+            </th>
             <td></td>
             <td></td>
           </tr>
           <tr>
-            <th scope="row" className="pl-8">Task Lookup</th>
+            <th scope="row" className="pl-4">
+              <ArrowRightEndOnRectangleIcon className="size-5 inline align-text-top mr-2" />
+              Capture Notes
+            </th>
+            <td>
+              <ExclamationCircleIcon className="size-5 inline align-text-top mr-2 text-amber-600" />
+              Unknown
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row" className="pl-4">
+              <ArrowLeftStartOnRectangleIcon className="size-5 inline align-text-top mr-2" />
+              Task Enrichment
+            </th>
+            <td>
+              <XCircleIcon className="size-5 inline align-text-top mr-2 text-red-600" />
+              Unhealthy
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row" className="pl-4">
+              <FolderIcon className="size-5 inline align-text-top mr-2" />
+              Utilities
+            </th>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th scope="row" className="pl-8">
+              <CodeBracketIcon className="size-5 inline align-text-top mr-2" />
+              Task Lookup
+            </th>
             <td></td>
             <td></td>
           </tr>
