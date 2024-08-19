@@ -1,11 +1,11 @@
 export default function Home() {
   return (
-    <main>
-      <div>
+    <main className="max-w-3xl mx-auto mt-4">
+      <div className="flex justify-between">
         <h1>Pipelines</h1>
         <button type="button">Create Pipeline</button>
       </div>
-      <table>
+      <table className="text-left mt-4">
         <thead>
           <tr>
             <th scope="col">Name</th>
@@ -25,22 +25,22 @@ export default function Home() {
             <td></td>
           </tr>
           <tr>
-            <th scope="row">Capture Notes</th>
+            <th scope="row" className="pl-4">Capture Notes</th>
             <td>Unknown</td>
             <td></td>
           </tr>
           <tr>
-            <th scope="row">Task Enrichment</th>
+            <th scope="row" className="pl-4">Task Enrichment</th>
             <td>Unhealthy</td>
             <td></td>
           </tr>
           <tr>
-            <th scope="row">Utilities</th>
+            <th scope="row" className="pl-4">Utilities</th>
             <td></td>
             <td></td>
           </tr>
           <tr>
-            <th scope="row">Task Lookup</th>
+            <th scope="row" className="pl-8">Task Lookup</th>
             <td></td>
             <td></td>
           </tr>
