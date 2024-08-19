@@ -7,7 +7,7 @@ export default function Home() {
         <h1>Pipelines</h1>
         <button type="button">Create Pipeline</button>
       </div>
-      <table className="text-left mt-4">
+      <table className="text-left mt-4 w-full">
         <thead>
           <tr>
             <th scope="col">Name</th>
