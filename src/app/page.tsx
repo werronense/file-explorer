@@ -6,6 +6,9 @@ import {
   CodeBracketIcon,
   ArrowRightEndOnRectangleIcon,
   ArrowLeftStartOnRectangleIcon,
+  TrashIcon,
+  CodeBracketSquareIcon,
+  ChartBarIcon,
 } from "@heroicons/react/24/outline";
 
 export default function Home() {
@@ -33,7 +36,11 @@ export default function Home() {
               <CheckCircleIcon className="size-5 inline align-text-top mr-2 text-green-600" />
               Healthy
             </td>
-            <td></td>
+            <td className="text-right">
+              <ChartBarIcon className="size-5 inline align-text-top mr-2" />
+              <CodeBracketSquareIcon className="size-5 inline align-text-top mr-2" />
+              <TrashIcon className="size-5 inline align-text-top text-red-600" />
+            </td>
           </tr>
           <tr>
             <th scope="row">
@@ -41,7 +48,9 @@ export default function Home() {
               Task Management
             </th>
             <td></td>
-            <td></td>
+            <td className="text-right">
+              <TrashIcon className="size-5 inline align-text-top text-red-600" />
+            </td>
           </tr>
           <tr>
             <th scope="row" className="pl-4">
@@ -52,7 +61,11 @@ export default function Home() {
               <ExclamationCircleIcon className="size-5 inline align-text-top mr-2 text-amber-600" />
               Unknown
             </td>
-            <td></td>
+            <td className="text-right">
+              <ChartBarIcon className="size-5 inline align-text-top mr-2" />
+              <CodeBracketSquareIcon className="size-5 inline align-text-top mr-2" />
+              <TrashIcon className="size-5 inline align-text-top text-red-600" />
+            </td>
           </tr>
           <tr>
             <th scope="row" className="pl-4">
@@ -63,7 +76,11 @@ export default function Home() {
               <XCircleIcon className="size-5 inline align-text-top mr-2 text-red-600" />
               Unhealthy
             </td>
-            <td></td>
+            <td className="text-right">
+              <ChartBarIcon className="size-5 inline align-text-top mr-2" />
+              <CodeBracketSquareIcon className="size-5 inline align-text-top mr-2" />
+              <TrashIcon className="size-5 inline align-text-top text-red-600" />
+            </td>
           </tr>
           <tr>
             <th scope="row" className="pl-4">
@@ -71,7 +88,9 @@ export default function Home() {
               Utilities
             </th>
             <td></td>
-            <td></td>
+            <td className="text-right">
+              <TrashIcon className="size-5 inline align-text-top text-red-600" />
+            </td>
           </tr>
           <tr>
             <th scope="row" className="pl-8">
@@ -79,7 +98,11 @@ export default function Home() {
               Task Lookup
             </th>
             <td></td>
-            <td></td>
+            <td className="text-right">
+              <ChartBarIcon className="size-5 inline align-text-top mr-2" />
+              <CodeBracketSquareIcon className="size-5 inline align-text-top mr-2" />
+              <TrashIcon className="size-5 inline align-text-top text-red-600" />
+            </td>
           </tr>
         </tbody>
       </table>
