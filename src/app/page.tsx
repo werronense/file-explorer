@@ -1,3 +1,5 @@
+import { CheckCircleIcon, ExclamationCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
+
 export default function Home() {
   return (
     <main className="max-w-3xl mx-auto mt-4">
@@ -16,7 +18,7 @@ export default function Home() {
         <tbody>
           <tr>
             <th scope="row">Meeting Transcriptions</th>
-            <td>Healthy</td>
+            <td><CheckCircleIcon className="size-5 inline align-text-top mr-2 text-green-600" />Healthy</td>
             <td></td>
           </tr>
           <tr>
@@ -26,12 +28,12 @@ export default function Home() {
           </tr>
           <tr>
             <th scope="row" className="pl-4">Capture Notes</th>
-            <td>Unknown</td>
+            <td><ExclamationCircleIcon className="size-5 inline align-text-top mr-2 text-amber-600" />Unknown</td>
             <td></td>
           </tr>
           <tr>
             <th scope="row" className="pl-4">Task Enrichment</th>
-            <td>Unhealthy</td>
+            <td><XCircleIcon className="size-5 inline align-text-top mr-2 text-red-600" />Unhealthy</td>
             <td></td>
           </tr>
           <tr>
