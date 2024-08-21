@@ -1,3 +1,5 @@
+"use client";
+
 import {
   CheckCircleIcon,
   ExclamationCircleIcon,
@@ -10,9 +12,40 @@ import {
   CodeBracketSquareIcon,
   ChartBarIcon,
 } from "@heroicons/react/24/outline";
+import { useState } from "react";
 import { files } from "@/data/file-data";
 
+type File = {
+  id: string;
+  name: string;
+  status?: string;
+  fileType: string;
+}
+
+type Folder = {
+  id: string;
+  name: string;
+  files: Array<File | Folder>;
+}
+
+const flattenFileTree = (tree: Array<File | Folder>, level: number): Array<[number, File | Folder]> => {
+  const flattened: Array<[number, File | Folder]> = [];
+
+  tree.forEach(row => {
+    if ("files" in row) {
+      flattened.push([level, row]);
+      flattened.push(...flattenFileTree(row.files, level + 1));
+    } else {
+      flattened.push([level, row]);
+    }
+  });
+
+  return flattened;
+}
+
 export default function Home() {
+  const [fileTree, setFileTree] = useState(files);
+
   return (
     <main className="max-w-3xl mx-auto mt-4">
       <div className="flex justify-between">

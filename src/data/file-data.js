@@ -28,7 +28,6 @@ export const files = [
           {
             id: "6",
             name: "Task Lookup",
-            status: null,
             fileType: "code",
           },
         ],
