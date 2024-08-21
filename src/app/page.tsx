@@ -32,11 +32,10 @@ const flattenFileTree = (tree: Array<File | Folder>, level: number): Array<[numb
   const flattened: Array<[number, File | Folder]> = [];
 
   tree.forEach(row => {
+    flattened.push([level, row]);
+    
     if ("files" in row) {
-      flattened.push([level, row]);
       flattened.push(...flattenFileTree(row.files, level + 1));
-    } else {
-      flattened.push([level, row]);
     }
   });
 
@@ -45,7 +44,7 @@ const flattenFileTree = (tree: Array<File | Folder>, level: number): Array<[numb
 
 export default function Home() {
   const [fileTree, setFileTree] = useState(files);
-
+  
   return (
     <main className="max-w-3xl mx-auto mt-4">
       <div className="flex justify-between">
