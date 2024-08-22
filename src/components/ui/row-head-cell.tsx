@@ -13,7 +13,7 @@ type RowHeadCellProps = {
 
 export const RowHeadCell = ({ level, file }: RowHeadCellProps) => {
   return (
-    <th scope="row" className={`pl-${4 * (level - 1)}`}>
+    <th scope="row" style={{ paddingLeft: `${level - 1}rem`}}>
       {"files" in file && (
         <FolderIcon className="size-5 inline align-text-top mr-2" />
       )}
