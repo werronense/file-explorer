@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { FileTree, FlatFileTree } from "@/definitions/file-tree";
-import { TableRow } from "@/ui/components/table-row";
+import { TableRow } from "@/components/ui/table-row";
 import { files } from "@/data/file-data";
 
 const flattenFileTree = (
