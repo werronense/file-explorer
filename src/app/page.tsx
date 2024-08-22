@@ -13,26 +13,14 @@ import {
   ChartBarIcon,
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { FileTree, FlatFileTree } from "@/definitions/file-tree";
 import { files } from "@/data/file-data";
 
-type File = {
-  id: string;
-  name: string;
-  status?: string;
-  fileType: string;
-};
-
-type Folder = {
-  id: string;
-  name: string;
-  files: Array<File | Folder>;
-};
-
 const flattenFileTree = (
-  tree: Array<File | Folder>,
+  tree: FileTree,
   level: number
-): Array<[number, File | Folder]> => {
-  const flattened: Array<[number, File | Folder]> = [];
+): FlatFileTree => {
+  const flattened: FlatFileTree = [];
 
   tree.forEach((row) => {
     flattened.push([level, row]);
