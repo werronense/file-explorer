@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { File, Folder } from "@/definitions/file-tree";
 import {
   FolderIcon,
@@ -10,7 +11,8 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from "@/components/ui/context-menu"
+} from "@/components/ui/context-menu";
+import { InputCell } from "@/components/ui/input-cell";
 
 type RowHeadCellProps = {
   level: number;
@@ -18,8 +20,10 @@ type RowHeadCellProps = {
 };
 
 export const RowHeadCell = ({ level, file }: RowHeadCellProps) => {
+  const [renaming, setRenaming] = useState(false);
+
   return (
-    <th scope="row" style={{ paddingLeft: `${level - 1}rem`}}>
+    <th scope="row" style={{ paddingLeft: `${level - 1}rem` }}>
       <ContextMenu>
         <ContextMenuTrigger>
           {"files" in file && (
@@ -35,10 +39,12 @@ export const RowHeadCell = ({ level, file }: RowHeadCellProps) => {
               (file.fileType === "code" && (
                 <CodeBracketIcon className="size-5 inline align-text-top mr-2" />
               )))}
-          {file.name}
+          <InputCell name={file.name} renaming={renaming} />
         </ContextMenuTrigger>
         <ContextMenuContent>
-          <ContextMenuItem>Rename</ContextMenuItem>
+          <ContextMenuItem onClick={() => setRenaming(true)}>
+            Rename
+          </ContextMenuItem>
           <ContextMenuItem>Delete</ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
