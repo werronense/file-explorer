@@ -17,11 +17,11 @@ import { InputCell } from "@/components/ui/input-cell";
 type RowHeadCellProps = {
   level: number;
   file: File | Folder;
+  renaming: boolean;
+  handleSelect: (id: string) => void;
 };
 
-export const RowHeadCell = ({ level, file }: RowHeadCellProps) => {
-  const [renaming, setRenaming] = useState(false);
-
+export const RowHeadCell = ({ level, file, renaming, handleSelect }: RowHeadCellProps) => {
   return (
     <th scope="row" style={{ paddingLeft: `${level - 1}rem` }}>
       <ContextMenu>
@@ -42,7 +42,7 @@ export const RowHeadCell = ({ level, file }: RowHeadCellProps) => {
           <InputCell name={file.name} renaming={renaming} />
         </ContextMenuTrigger>
         <ContextMenuContent>
-          <ContextMenuItem onClick={() => setRenaming(true)}>
+          <ContextMenuItem onClick={() => handleSelect(file.id)}>
             Rename
           </ContextMenuItem>
           <ContextMenuItem>Delete</ContextMenuItem>

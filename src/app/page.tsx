@@ -5,10 +5,7 @@ import { FileTree, FlatFileTree } from "@/definitions/file-tree";
 import { TableRow } from "@/components/ui/table-row";
 import { files } from "@/data/file-data";
 
-const flattenFileTree = (
-  tree: FileTree,
-  level: number
-): FlatFileTree => {
+const flattenFileTree = (tree: FileTree, level: number): FlatFileTree => {
   const flattened: FlatFileTree = [];
 
   tree.forEach((row) => {
@@ -24,7 +21,8 @@ const flattenFileTree = (
 
 export default function Home() {
   const [fileTree, setFileTree] = useState(files);
-
+  const [selectedFileId, setSelectedFileId] = useState("");
+  
   const tableRows = flattenFileTree(fileTree, 1);
 
   return (
@@ -43,7 +41,13 @@ export default function Home() {
         </thead>
         <tbody>
           {tableRows.map(([level, file]) => (
-            <TableRow key={file.id} level={level} file={file} />
+            <TableRow
+              key={file.id}
+              level={level}
+              file={file}
+              isEditable={selectedFileId === file.id}
+              handleSelect={setSelectedFileId}
+            />
           ))}
         </tbody>
       </table>
