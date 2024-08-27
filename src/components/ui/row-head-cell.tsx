@@ -39,7 +39,7 @@ export const RowHeadCell = ({ level, file, renaming, handleSelect }: RowHeadCell
               (file.fileType === "code" && (
                 <CodeBracketIcon className="size-5 inline align-text-top mr-2" />
               )))}
-          <InputCell name={file.name} renaming={renaming} />
+          <InputCell name={file.name} renaming={renaming} handleDeselect={() => handleSelect("")} />
         </ContextMenuTrigger>
         <ContextMenuContent>
           <ContextMenuItem onClick={() => handleSelect(file.id)}>
