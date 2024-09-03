@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FileTree, FlatFileTree } from "@/definitions/file-tree";
 import { TableRow } from "@/components/ui/table-row";
-import { files } from "@/data/file-data";
 
 const flattenFileTree = (tree: FileTree, level: number): FlatFileTree => {
   const flattened: FlatFileTree = [];
@@ -20,10 +19,19 @@ const flattenFileTree = (tree: FileTree, level: number): FlatFileTree => {
 };
 
 export default function Home() {
-  const [fileTree, setFileTree] = useState(files);
+  const [fileTree, setFileTree] = useState([]);
   const [selectedFileId, setSelectedFileId] = useState("");
   
   const tableRows = flattenFileTree(fileTree, 1);
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch("/api")
+      const data = await response.json();
+      
+      setFileTree(data);
+    })()
+  }, []);
 
   return (
     <main className="max-w-3xl mx-auto mt-4">
