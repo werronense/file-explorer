@@ -8,12 +8,25 @@ type TableRowProps = {
   file: File | Folder;
   isEditable: boolean;
   handleSelect: (id: string) => void;
+  handleFileNameChange: (id: string, updatedName: string) => void;
 };
 
-export const TableRow = ({ level, file, isEditable, handleSelect }: TableRowProps) => {
+export const TableRow = ({
+  level,
+  file,
+  isEditable,
+  handleSelect,
+  handleFileNameChange,
+}: TableRowProps) => {
   return (
     <tr>
-      <RowHeadCell level={level} file={file} renaming={isEditable} handleSelect={handleSelect} />
+      <RowHeadCell
+        level={level}
+        file={file}
+        renaming={isEditable}
+        handleSelect={handleSelect}
+        handleFileNameChange={handleFileNameChange}
+      />
       {"status" in file ? <StatusCell status={file.status || ""} /> : <td></td>}
       <ActionCell file={file} />
     </tr>

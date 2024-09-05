@@ -19,9 +19,16 @@ type RowHeadCellProps = {
   file: File | Folder;
   renaming: boolean;
   handleSelect: (id: string) => void;
+  handleFileNameChange: (id: string, updatedName: string) => void;
 };
 
-export const RowHeadCell = ({ level, file, renaming, handleSelect }: RowHeadCellProps) => {
+export const RowHeadCell = ({
+  level,
+  file,
+  renaming,
+  handleSelect,
+  handleFileNameChange,
+}: RowHeadCellProps) => {
   return (
     <th scope="row" style={{ paddingLeft: `${level - 1}rem` }}>
       <ContextMenu>
@@ -39,7 +46,13 @@ export const RowHeadCell = ({ level, file, renaming, handleSelect }: RowHeadCell
               (file.fileType === "code" && (
                 <CodeBracketIcon className="size-5 inline align-text-top mr-2" />
               )))}
-          <InputCell name={file.name} renaming={renaming} handleDeselect={() => handleSelect("")} />
+          <InputCell
+            name={file.name}
+            id={file.id}
+            renaming={renaming}
+            handleDeselect={() => handleSelect("")}
+            handleFileNameChange={handleFileNameChange}
+          />
         </ContextMenuTrigger>
         <ContextMenuContent>
           <ContextMenuItem onClick={() => handleSelect(file.id)}>

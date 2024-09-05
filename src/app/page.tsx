@@ -21,16 +21,40 @@ const flattenFileTree = (tree: FileTree, level: number): FlatFileTree => {
 export default function Home() {
   const [fileTree, setFileTree] = useState([]);
   const [selectedFileId, setSelectedFileId] = useState("");
-  
+
   const tableRows = flattenFileTree(fileTree, 1);
+
+  const updateFileName = async (id: string, updatedName: string) => {
+    const updatedFileTree = JSON.parse(JSON.stringify(fileTree));
+
+    const findAndUpdateFile = (files: FileTree) => {
+      files.forEach((file) => {
+        if (file.id === id) {
+          file.name = updatedName;
+          return;
+        } else if ("files" in file) {
+          findAndUpdateFile(file.files);
+        }
+      });
+    };
+
+    findAndUpdateFile(updatedFileTree);
+
+    const response = await fetch(`/api`, {
+      method: "POST",
+      body: JSON.stringify(updatedFileTree),
+    });
+    const data = await response.json();
+    setFileTree(data);
+  };
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("/api")
+      const response = await fetch("/api");
       const data = await response.json();
-      
+
       setFileTree(data);
-    })()
+    })();
   }, []);
 
   return (
@@ -55,6 +79,7 @@ export default function Home() {
               file={file}
               isEditable={selectedFileId === file.id}
               handleSelect={setSelectedFileId}
+              handleFileNameChange={updateFileName}
             />
           ))}
         </tbody>
