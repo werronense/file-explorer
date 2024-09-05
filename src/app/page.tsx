@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FileTree, FlatFileTree } from "@/definitions/file-tree";
+import { FileTree, FlatFileTree, File } from "@/definitions/file-tree";
 import { TableRow } from "@/components/ui/table-row";
 
 const flattenFileTree = (tree: FileTree, level: number): FlatFileTree => {
@@ -24,8 +24,10 @@ export default function Home() {
 
   const tableRows = flattenFileTree(fileTree, 1);
 
+  const copyFileTree = () => JSON.parse(JSON.stringify(fileTree));
+
   const updateFileName = async (id: string, updatedName: string) => {
-    const updatedFileTree = JSON.parse(JSON.stringify(fileTree));
+    const newFileTree = copyFileTree();
 
     const findAndUpdateFile = (files: FileTree) => {
       files.forEach((file) => {
@@ -38,14 +40,74 @@ export default function Home() {
       });
     };
 
-    findAndUpdateFile(updatedFileTree);
+    findAndUpdateFile(newFileTree);
 
     const response = await fetch(`/api`, {
       method: "POST",
-      body: JSON.stringify(updatedFileTree),
+      body: JSON.stringify(newFileTree),
     });
     const data = await response.json();
     setFileTree(data);
+  };
+
+  const updateTreeStructure = async (fileId: string, folderId: string) => {
+    const newFileTree = copyFileTree();
+
+    const copyFile = (files: FileTree, id: string): File | undefined => {
+      const flatFileTree = flattenFileTree(files, 1);
+      const selected = flatFileTree.find(([_, file]) => {
+        return "fileType" in file && file.id === id;
+      });
+      
+      if (selected && "fileType" in selected[1]) {
+        return selected[1];
+      } else {
+        return undefined;
+      }
+    };
+
+    const filterFileTree = (files: FileTree, id: string): FileTree => {
+      const fileIndex = files.findIndex((file) => file.id === id);
+
+      if (fileIndex > -1) {
+        return files.toSpliced(fileIndex, 1);
+      } else {
+        return files.map((file) => {
+          if ("fileType" in file) {
+            return file;
+          } else {
+            return { ...file, files: filterFileTree(file.files, id) };
+          }
+        });
+      }
+    }
+
+    const insertFile = (files: FileTree, fileToInsert: File) => {
+      files.forEach((file) => {
+        if ("files" in file && file.id === folderId) {
+          file.files.push(fileToInsert);
+          return;
+        } else if ("files" in file) {
+          insertFile(file.files, fileToInsert);
+        }
+      });
+    };
+
+    const draggedFile = copyFile(newFileTree, fileId);
+
+    if (draggedFile) {
+      const filteredFileTree = filterFileTree(newFileTree, fileId);
+      
+      insertFile(filteredFileTree, draggedFile);
+
+      const response = await fetch(`/api`, {
+        method: "POST",
+        body: JSON.stringify(filteredFileTree),
+      });
+      const data = await response.json();
+      
+      setFileTree(data);
+    }
   };
 
   useEffect(() => {
@@ -80,6 +142,7 @@ export default function Home() {
               isEditable={selectedFileId === file.id}
               handleSelect={setSelectedFileId}
               handleFileNameChange={updateFileName}
+              handleFileMove={updateTreeStructure}
             />
           ))}
         </tbody>

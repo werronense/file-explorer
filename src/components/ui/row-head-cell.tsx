@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { File, Folder } from "@/definitions/file-tree";
 import {
   FolderIcon,
