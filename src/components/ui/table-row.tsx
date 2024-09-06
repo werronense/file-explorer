@@ -9,7 +9,7 @@ type TableRowProps = {
   isEditable: boolean;
   handleSelect: (id: string) => void;
   handleFileNameChange: (id: string, updatedName: string) => void;
-  handleFileMove: (fileId: string, folderId: string) => void;
+  handleFileMove: (movedFile: File, folderId: string) => void;
 };
 
 export const TableRow = ({
@@ -22,8 +22,8 @@ export const TableRow = ({
 }: TableRowProps) => {
   const isFile = "fileType" in file;
 
-  const handleDragStart = (e: React.DragEvent) => {
-    e.dataTransfer.setData("text/plain", e.currentTarget.id);
+  const handleDragStart = (e: React.DragEvent, fileData: File) => {
+    e.dataTransfer.setData("text/plain", JSON.stringify(fileData));
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -35,11 +35,11 @@ export const TableRow = ({
     e.preventDefault();
     const data = e.dataTransfer.getData("text/plain");
 
-    handleFileMove(data, e.currentTarget.id);
+    handleFileMove(JSON.parse(data), e.currentTarget.id);
   }
 
   return (isFile ?
-    (<tr id={file.id} draggable={true} onDragStart={handleDragStart}>
+    (<tr id={file.id} draggable={true} onDragStart={(e) => handleDragStart(e, file)}>
       <RowHeadCell
         level={level}
         file={file}

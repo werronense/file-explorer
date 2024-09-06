@@ -50,21 +50,8 @@ export default function Home() {
     setFileTree(data);
   };
 
-  const updateTreeStructure = async (fileId: string, folderId: string) => {
+  const updateTreeStructure = async (movedFile: File, folderId: string) => {
     const newFileTree = copyFileTree();
-
-    const copyFile = (files: FileTree, id: string): File | undefined => {
-      const flatFileTree = flattenFileTree(files, 1);
-      const selected = flatFileTree.find(([_, file]) => {
-        return "fileType" in file && file.id === id;
-      });
-      
-      if (selected && "fileType" in selected[1]) {
-        return selected[1];
-      } else {
-        return undefined;
-      }
-    };
 
     const filterFileTree = (files: FileTree, id: string): FileTree => {
       const fileIndex = files.findIndex((file) => file.id === id);
@@ -93,21 +80,17 @@ export default function Home() {
       });
     };
 
-    const draggedFile = copyFile(newFileTree, fileId);
+    const filteredFileTree = filterFileTree(newFileTree, movedFile.id);
+    
+    insertFile(filteredFileTree, movedFile);
 
-    if (draggedFile) {
-      const filteredFileTree = filterFileTree(newFileTree, fileId);
-      
-      insertFile(filteredFileTree, draggedFile);
-
-      const response = await fetch(`/api`, {
-        method: "POST",
-        body: JSON.stringify(filteredFileTree),
-      });
-      const data = await response.json();
-      
-      setFileTree(data);
-    }
+    const response = await fetch(`/api`, {
+      method: "POST",
+      body: JSON.stringify(filteredFileTree),
+    });
+    const data = await response.json();
+    
+    setFileTree(data);
   };
 
   useEffect(() => {
