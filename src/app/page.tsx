@@ -19,12 +19,24 @@ const flattenFileTree = (tree: FileTree, level: number): FlatFileTree => {
 };
 
 export default function Home() {
-  const [fileTree, setFileTree] = useState([]);
+  const [fileTree, setFileTree] = useState<FileTree>([]);
   const [selectedFileId, setSelectedFileId] = useState("");
 
   const tableRows = flattenFileTree(fileTree, 1);
 
   const copyFileTree = () => JSON.parse(JSON.stringify(fileTree));
+
+  const postData = async (
+    files: FileTree,
+    endpoint: string
+  ): Promise<FileTree> => {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      body: JSON.stringify(files),
+    });
+
+    return await response.json();
+  };
 
   const updateFileName = async (id: string, updatedName: string) => {
     const newFileTree = copyFileTree();
@@ -42,11 +54,7 @@ export default function Home() {
 
     findAndUpdateFile(newFileTree);
 
-    const response = await fetch(`/api`, {
-      method: "POST",
-      body: JSON.stringify(newFileTree),
-    });
-    const data = await response.json();
+    const data = await postData(newFileTree, "/api");
     setFileTree(data);
   };
 
@@ -67,7 +75,7 @@ export default function Home() {
           }
         });
       }
-    }
+    };
 
     const insertFile = (files: FileTree, fileToInsert: File) => {
       files.forEach((file) => {
@@ -81,15 +89,11 @@ export default function Home() {
     };
 
     const filteredFileTree = filterFileTree(newFileTree, movedFile.id);
-    
+
     insertFile(filteredFileTree, movedFile);
 
-    const response = await fetch(`/api`, {
-      method: "POST",
-      body: JSON.stringify(filteredFileTree),
-    });
-    const data = await response.json();
-    
+    const data = await postData(filteredFileTree, "/api");
+
     setFileTree(data);
   };
 
