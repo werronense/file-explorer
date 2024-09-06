@@ -26,18 +26,6 @@ export default function Home() {
 
   const copyFileTree = () => JSON.parse(JSON.stringify(fileTree));
 
-  const postData = async (
-    files: FileTree,
-    endpoint: string
-  ): Promise<FileTree> => {
-    const response = await fetch(endpoint, {
-      method: "POST",
-      body: JSON.stringify(files),
-    });
-
-    return await response.json();
-  };
-
   const updateFileName = async (id: string, updatedName: string) => {
     const newFileTree = copyFileTree();
 
@@ -54,8 +42,7 @@ export default function Home() {
 
     findAndUpdateFile(newFileTree);
 
-    const data = await postData(newFileTree, "/api");
-    setFileTree(data);
+    setFileTree(newFileTree);
   };
 
   const updateTreeStructure = async (movedFile: File, folderId: string) => {
@@ -92,9 +79,7 @@ export default function Home() {
 
     insertFile(filteredFileTree, movedFile);
 
-    const data = await postData(filteredFileTree, "/api");
-
-    setFileTree(data);
+    setFileTree(filteredFileTree);
   };
 
   useEffect(() => {

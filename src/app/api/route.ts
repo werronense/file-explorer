@@ -9,14 +9,3 @@ export function GET() {
 
   return Response.json(data);
 }
-
-export async function POST(req: Request) {
-  const data = await req.json();
-  
-  fs.writeFileSync(
-    `${process.cwd()}/src/data/file-data.json`,
-    JSON.stringify(data)
-  );
-
-  return Response.json(data);
-}
