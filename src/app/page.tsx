@@ -26,7 +26,7 @@ export default function Home() {
 
   const copyFileTree = () => JSON.parse(JSON.stringify(fileTree));
 
-  const updateFileName = async (id: string, updatedName: string) => {
+  const updateFileName = (id: string, updatedName: string) => {
     const newFileTree = copyFileTree();
 
     const findAndUpdateFile = (files: FileTree) => {
@@ -45,41 +45,57 @@ export default function Home() {
     setFileTree(newFileTree);
   };
 
-  const updateTreeStructure = async (movedFile: File, folderId: string) => {
-    const newFileTree = copyFileTree();
+  const removeFile = (
+    id: string,
+    files: FileTree = copyFileTree()
+  ): FileTree => {
+    const fileIndex = files.findIndex((file) => file.id === id);
 
-    const filterFileTree = (files: FileTree, id: string): FileTree => {
-      const fileIndex = files.findIndex((file) => file.id === id);
-
-      if (fileIndex > -1) {
-        return files.toSpliced(fileIndex, 1);
-      } else {
-        return files.map((file) => {
-          if ("fileType" in file) {
-            return file;
-          } else {
-            return { ...file, files: filterFileTree(file.files, id) };
-          }
-        });
-      }
-    };
-
-    const insertFile = (files: FileTree, fileToInsert: File) => {
-      files.forEach((file) => {
-        if ("files" in file && file.id === folderId) {
-          file.files.push(fileToInsert);
-          return;
-        } else if ("files" in file) {
-          insertFile(file.files, fileToInsert);
+    if (fileIndex > -1) {
+      return files.toSpliced(fileIndex, 1);
+    } else {
+      return files.map((file) => {
+        if ("fileType" in file) {
+          return file;
+        } else {
+          return { ...file, files: removeFile(id, file.files) };
         }
       });
-    };
+    }
+  };
 
-    const filteredFileTree = filterFileTree(newFileTree, movedFile.id);
+  const insertFile = (
+    files: FileTree,
+    movedFile: File,
+    folderId: string,
+    isTargetFolder: boolean = false
+  ): FileTree => {
+    if (isTargetFolder) {
+      return [...files, movedFile];
+    } else {
+      return files.map((file) => {
+        if ("fileType" in file) {
+          return file;
+        } else {
+          return {
+            ...file,
+            files: insertFile(
+              file.files,
+              movedFile,
+              folderId,
+              file.id === folderId
+            ),
+          };
+        }
+      });
+    }
+  };
 
-    insertFile(filteredFileTree, movedFile);
+  const updateTreeStructure = (movedFile: File, folderId: string) => {
+    const filteredFileTree = removeFile(movedFile.id, copyFileTree());
+    const updatedFileTree = insertFile(filteredFileTree, movedFile, folderId, false);
 
-    setFileTree(filteredFileTree);
+    setFileTree(updatedFileTree);
   };
 
   useEffect(() => {
