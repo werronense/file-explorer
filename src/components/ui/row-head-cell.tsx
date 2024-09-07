@@ -19,6 +19,7 @@ type RowHeadCellProps = {
   renaming: boolean;
   handleSelect: (id: string) => void;
   handleFileNameChange: (id: string, updatedName: string) => void;
+  handleDeleteFile: (id: string) => void;
 };
 
 export const RowHeadCell = ({
@@ -27,6 +28,7 @@ export const RowHeadCell = ({
   renaming,
   handleSelect,
   handleFileNameChange,
+  handleDeleteFile,
 }: RowHeadCellProps) => {
   return (
     <th scope="row" style={{ paddingLeft: `${level - 1}rem` }}>
@@ -57,7 +59,7 @@ export const RowHeadCell = ({
           <ContextMenuItem onClick={() => handleSelect(file.id)}>
             Rename
           </ContextMenuItem>
-          <ContextMenuItem>Delete</ContextMenuItem>
+          <ContextMenuItem onClick={() => handleDeleteFile(file.id)}>Delete</ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
     </th>

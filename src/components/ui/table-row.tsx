@@ -10,6 +10,7 @@ type TableRowProps = {
   handleSelect: (id: string) => void;
   handleFileNameChange: (id: string, updatedName: string) => void;
   handleFileMove: (movedFile: File, folderId: string) => void;
+  handleDeleteFile: (id: string) => void;
 };
 
 export const TableRow = ({
@@ -19,6 +20,7 @@ export const TableRow = ({
   handleSelect,
   handleFileNameChange,
   handleFileMove,
+  handleDeleteFile,
 }: TableRowProps) => {
   const isFile = "fileType" in file;
 
@@ -58,6 +60,7 @@ export const TableRow = ({
         renaming={isEditable}
         handleSelect={handleSelect}
         handleFileNameChange={handleFileNameChange}
+        handleDeleteFile={handleDeleteFile}
       />
       {"status" in file ? <StatusCell status={file.status || ""} /> : <td></td>}
       <ActionCell file={file} />
@@ -70,6 +73,7 @@ export const TableRow = ({
         renaming={isEditable}
         handleSelect={handleSelect}
         handleFileNameChange={handleFileNameChange}
+        handleDeleteFile={handleDeleteFile}
       />
       <td></td>
       <ActionCell file={file} />

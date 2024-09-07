@@ -45,7 +45,7 @@ export default function Home() {
     setFileTree(newFileTree);
   };
 
-  const removeFile = (
+  const filterFiles = (
     id: string,
     files: FileTree = copyFileTree()
   ): FileTree => {
@@ -58,11 +58,17 @@ export default function Home() {
         if ("fileType" in file) {
           return file;
         } else {
-          return { ...file, files: removeFile(id, file.files) };
+          return { ...file, files: filterFiles(id, file.files) };
         }
       });
     }
   };
+
+  const removeFile = (id: string, files: FileTree = copyFileTree()) => {
+    const filteredFileTree = filterFiles(id, files);
+
+    setFileTree(filteredFileTree);
+  }
 
   const insertFile = (
     files: FileTree,
@@ -92,7 +98,7 @@ export default function Home() {
   };
 
   const updateTreeStructure = (movedFile: File, folderId: string) => {
-    const filteredFileTree = removeFile(movedFile.id, copyFileTree());
+    const filteredFileTree = filterFiles(movedFile.id, copyFileTree());
     const updatedFileTree = insertFile(filteredFileTree, movedFile, folderId, false);
 
     setFileTree(updatedFileTree);
@@ -131,6 +137,7 @@ export default function Home() {
               handleSelect={setSelectedFileId}
               handleFileNameChange={updateFileName}
               handleFileMove={updateTreeStructure}
+              handleDeleteFile={removeFile}
             />
           ))}
         </tbody>
