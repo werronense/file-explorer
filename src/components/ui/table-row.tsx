@@ -29,17 +29,29 @@ export const TableRow = ({
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
-  }
+  };
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
+
+    const { id } = e.currentTarget;
     const data = e.dataTransfer.getData("text/plain");
+    const draggedFile = JSON.parse(data);
 
-    handleFileMove(JSON.parse(data), e.currentTarget.id);
-  }
+    if (
+      "files" in file &&
+      !file.files.some((file) => file.id === draggedFile.id)
+    ) {
+      handleFileMove(draggedFile, id);
+    }
+  };
 
-  return (isFile ?
-    (<tr id={file.id} draggable={true} onDragStart={(e) => handleDragStart(e, file)}>
+  return isFile ? (
+    <tr
+      id={file.id}
+      draggable={true}
+      onDragStart={(e) => handleDragStart(e, file)}
+    >
       <RowHeadCell
         level={level}
         file={file}
@@ -49,8 +61,9 @@ export const TableRow = ({
       />
       {"status" in file ? <StatusCell status={file.status || ""} /> : <td></td>}
       <ActionCell file={file} />
-    </tr>) :
-    (<tr id={file.id} onDragOver={handleDragOver} onDrop={handleDrop}>
+    </tr>
+  ) : (
+    <tr id={file.id} onDragOver={handleDragOver} onDrop={handleDrop}>
       <RowHeadCell
         level={level}
         file={file}
@@ -60,6 +73,6 @@ export const TableRow = ({
       />
       <td></td>
       <ActionCell file={file} />
-    </tr>)
+    </tr>
   );
 };
